@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox alignment="CENTER" prefHeight="600.0" prefWidth="800.0" spacing="20.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/22" fx:controller="com.kgt.messageapp.HelloController">
+   <children>
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+         <children>
+            <Label text="Messenger" textAlignment="CENTER" textFill="#c63dbd">
+               <font>
+                  <Font size="46.0" />
+               </font>
+            </Label>
+         </children>
+         <VBox.margin>
+            <Insets />
+         </VBox.margin>
+      </HBox>
+      <Label text="Select connection type" />
+      <RadioButton fx:id="ServerRadio" mnemonicParsing="false" text="Server">
+         <toggleGroup>
+            <ToggleGroup fx:id="ConnectionType" />
+         </toggleGroup>
+      </RadioButton>
+      <RadioButton fx:id="ClientRadio" mnemonicParsing="false" selected="true" text="Client" toggleGroup="$ConnectionType" />
+      <VBox alignment="CENTER" prefHeight="12.0" prefWidth="800.0" spacing="20.0">
+         <children>
+            <Label text="Enter your name: " />
+            <TextField fx:id="ClientName" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="25.0" prefWidth="300.0" text="Client1" />
+            <Label text="Enter server ip adress:" />
+            <TextField fx:id="ServerIp" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="25.0" prefWidth="300.0" text="127.0.0.1" />
+         </children>
+      </VBox>
+      <Button mnemonicParsing="false" onAction="#onStartButtonClick" text="Start" />
+      <Label fx:id="testText" />
+   </children>
+</VBox>
