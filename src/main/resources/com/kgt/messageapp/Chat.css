@@ -1,0 +1,7 @@
+.text-field-with-margin {
+    -fx-padding: 3px;
+    -fx-border-insets: 5px;
+    -fx-background-insets: 5px;
+    -fx-border-color: black;
+    -fx-font-size: 14px;
+}
