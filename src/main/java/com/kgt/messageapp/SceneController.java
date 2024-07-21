@@ -14,14 +14,17 @@ import java.util.Objects;
 
 public class SceneController {
 
-    private Stage stage;
+    private static Stage stage;
     private Scene scene;
     private Parent root;
 
+    public static void SetStage(Stage s) {
+        stage = s;
+    }
+
     @FXML
-    protected void switchToClientScene(ActionEvent event) throws IOException {
+    protected void switchToClientScene() throws IOException {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("clientChat.fxml")));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
         stage.show();

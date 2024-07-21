@@ -1,5 +1,9 @@
 package com.kgt.messageapp.client;
 
+import com.kgt.messageapp.MainManager;
+import com.kgt.messageapp.Server;
+import javafx.application.Platform;
+
 import java.io.*;
 import java.net.*;
 
@@ -9,10 +13,10 @@ public class Client {
     private DataInputStream serverInput;
     private Thread thread;
 
-    public Client(String address, int port) {
+    public Client(String adress, int port) {
         try {
-            socket = new Socket(address, port);
-            System.out.println("Connected to " + address + ":" + port);
+            socket = new Socket(adress, port);
+            System.out.println("Connected to " + adress + ":" + port);
 
             serverInput = new DataInputStream(socket.getInputStream());
             outputStream = new DataOutputStream(socket.getOutputStream());
@@ -25,8 +29,7 @@ public class Client {
 
     }
 
-    public void CloseStreams()
-    {
+    public void CloseStreams() {
         try {
             this.getOutputStream().close();
             this.getSocket().close();
@@ -39,32 +42,29 @@ public class Client {
     public class ServerListener implements Runnable {
         @Override
         public void run() {
-            String line = "";
             while (true) {
                 try {
-                    line = serverInput.readUTF();
-                    System.out.println(line);
+                    String line = serverInput.readUTF();
+                    Platform.runLater(() -> MainManager.getInstance().MessageReceived(line));
                 } catch (IOException i) {
-                    System.out.println(i);
+                    System.out.println(i.getMessage());
                     break;
                 }
             }
         }
     }
 
+    public static void main(String[] args) {
+        Client client = new Client("127.0.0.1", 5000);
+    }
 
     public void SendMessageToServer(String message) {
         try {
             this.getOutputStream().writeUTF(message);
         }
         catch (IOException e) {
-            System.out.println(e);
+            System.out.println(e.getMessage());
         }
-    }
-
-
-    public static void main(String[] args) {
-        Client client = new Client("127.0.0.1", 5000);
     }
 
     public Socket getSocket() {
@@ -74,7 +74,6 @@ public class Client {
     public DataOutputStream getOutputStream() {
         return outputStream;
     }
-
 
     public DataInputStream getServerInput() {
         return serverInput;

@@ -5,27 +5,24 @@ import java.net.*;
 import java.util.*;
 
 public class Server {
-    private ServerSocket server = null;
+    private ServerSocket serverSocket = null;
     private List<ClientHandler> clients = Collections.synchronizedList(new ArrayList<>());
 
     public Server(int port) {
         try {
-            server = new ServerSocket(port);
+            serverSocket = new ServerSocket(port);
             System.out.println("Server started");
 
-            while (true)
-            {
-                System.out.println("Waiting for client on port " + port);
-                Socket socket = server.accept();
-                System.out.println("Client connected");
+            ClientSearcher searcher = new ClientSearcher(this, serverSocket);
+            new Thread(searcher).start();
 
-                ClientHandler clientHandler = new ClientHandler(socket, this);
-                clients.add(clientHandler);
-                new Thread(clientHandler).start();
-            }
         } catch (IOException e) {
             System.out.println("Server Error: " + e.getMessage());
         }
+    }
+
+    public void AddClient(ClientHandler clientHandler) {
+        clients.add(clientHandler);
     }
 
     public void broadCastMessage(String message, ClientHandler excludeClient) {
@@ -43,6 +40,34 @@ public class Server {
         Server server = new Server(5000);
     }
 
+}
+
+class ClientSearcher implements Runnable {
+
+    ServerSocket serverSocket;
+    Server server;
+
+    public ClientSearcher(Server server, ServerSocket serverSocket) {
+        this.server = server;
+        this.serverSocket = serverSocket;
+    }
+
+    @Override
+    public void run() {
+        while (true)
+        {
+            try {
+                Socket socket = serverSocket.accept();
+                System.out.println("Client connected");
+
+                ClientHandler clientHandler = new ClientHandler(socket, server);
+                server.AddClient(clientHandler);
+                new Thread(clientHandler).start();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
 }
 
 class ClientHandler implements Runnable {
@@ -74,7 +99,7 @@ class ClientHandler implements Runnable {
     @Override
     public void run() {
         String line = "";
-        while (!line.equals("End"))
+        while (true)
         {
             try {
                 line = in.readUTF();

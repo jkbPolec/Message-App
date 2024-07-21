@@ -1,14 +1,17 @@
 package com.kgt.messageapp;
 
 import com.kgt.messageapp.client.Client;
+import javafx.application.Platform;
 
 public final class MainManager {
+
     private static volatile MainManager instance;
     private Client client;
     private Server server;
 
 
     private SceneController sceneController;
+    private Chat chatController;
 
     private MainManager() {
 
@@ -31,14 +34,21 @@ public final class MainManager {
         sceneController = new SceneController();
     }
 
+    public void MessageReceived(String msg) {
+        System.out.println("Message Received: " + msg);
+        Chat.getInstance().DisplayMessage(msg);
+
+    }
+
+
+
     private enum AppModeType{
         CLIENT, SERVER;
     }
 
     private static AppModeType AppMode;
 
-
-    public void SetAppMode(String type){
+    private void SetAppMode(String type){
         if(type.equalsIgnoreCase("client")){
             AppMode = AppModeType.CLIENT;
         }
@@ -54,6 +64,26 @@ public final class MainManager {
         return sceneController;
     }
 
+    public void SetUpForServer() {
+        this.server = new Server(5000);
+        SetAppMode("server");
+    }
+
+    public void SetUpForClient(String address) {
+        this.client = new Client(address, 5000);
+        SetAppMode("client");
+
+        try {
+            sceneController.switchToClientScene();
+        }
+        catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public Client getClient() {
+        return client;
+    }
 
 
 

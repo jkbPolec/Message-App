@@ -23,7 +23,7 @@
       <HBox prefHeight="21.0" prefWidth="780.0" spacing="10.0">
          <children>
             <TextField fx:id="ChatInput" prefHeight="25.0" prefWidth="640.0" />
-            <Button fx:id="SendButton" mnemonicParsing="false" onAction="#addBoxTest" prefHeight="25.0" prefWidth="150.0" text="Send" />
+            <Button fx:id="SendButton" mnemonicParsing="false" onAction="#sendMessageButton" prefHeight="25.0" prefWidth="150.0" text="Send" />
          </children>
       </HBox>
    </children>

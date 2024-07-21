@@ -8,8 +8,6 @@ import javafx.event.ActionEvent;
 import java.io.IOException;
 
 public class HelloController {
-    @FXML
-    private Label testText;
 
     @FXML
     private RadioButton ServerRadio;
@@ -29,24 +27,15 @@ public class HelloController {
 
         if (ServerRadio.isSelected()) {
             System.out.println("Server selected");
-
+            MainManager.getInstance().SetUpForServer();
 
         }else
         {
             System.out.println("Client selected");
             System.out.println("Client name: " + ClientName.getText());
             System.out.println("Server ip: " + ServerIp.getText());
-
-            try{
-                MainManager.getInstance().getSceneController().switchToClientScene(event);
-            }
-            catch (IOException e){
-                System.out.println(e);
-            }
+            MainManager.getInstance().SetUpForClient(ServerIp.getText());
         }
 
-
-
-        testText.setText("Started app");
     }
 }
