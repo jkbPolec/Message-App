@@ -1,9 +1,10 @@
 package com.kgt.messageapp;
 
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
+
+import java.util.Objects;
 
 
 public class Chat {
@@ -25,6 +26,7 @@ public class Chat {
     }
 
 
+
     @FXML
     protected void sendMessageButton() {
         String text = ChatInput.getText();
@@ -41,7 +43,7 @@ public class Chat {
     private void createChatMessage(String text) {
         TextField newMessage = new TextField(text);
         newMessage.setEditable(false);
-        newMessage.getStylesheets().add(getClass().getResource("Chat.css").toExternalForm());
+        newMessage.getStylesheets().add(Objects.requireNonNull(getClass().getResource("Chat.css")).toExternalForm());
         newMessage.getStyleClass().add("text-field-with-margin");
 
         ChatBox.getChildren().add(newMessage);
