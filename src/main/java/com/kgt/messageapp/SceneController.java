@@ -15,7 +15,12 @@ import java.util.Objects;
 public class SceneController {
 
     private static Stage stage;
-    private Scene scene;
+
+    public static Scene getScene() {
+        return scene;
+    }
+
+    private static Scene scene;
     private Parent root;
 
     public static void SetStage(Stage s) {

@@ -1,53 +1,65 @@
 package com.kgt.messageapp;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
+import java.net.URL;
 import java.util.Objects;
+import java.util.ResourceBundle;
 
 
-public class Chat {
-
-    private static Chat instance;
+public class Chat implements Initializable {
 
     @FXML
-    private VBox ChatBox;
+    private Pane ChatBox;
+
 
     @FXML
     private TextField ChatInput;
-
-    public static Chat getInstance() {
-        if (instance != null) {
-            return instance;
-        }
-        instance = new Chat();
-        return instance;
-    }
-
 
 
     @FXML
     protected void sendMessageButton() {
         String text = ChatInput.getText();
-        createChatMessage(text);
+        createChatMessage(text, ChatBox);
         MainManager.getInstance().getClient().SendMessageToServer(text);
     }
 
-    @FXML
-    public void DisplayMessage(String text) {
-        createChatMessage(text);
-    }
 
     @FXML
-    private void createChatMessage(String text) {
+    public void DisplayMessage(String text, Pane ChatBox) {
+        createChatMessage(text, ChatBox);
+    }
+
+    public Pane getChatBox() {
+        return ChatBox;
+    }
+
+
+    private void createChatMessage(String text, Pane chatBox) {
         TextField newMessage = new TextField(text);
         newMessage.setEditable(false);
         newMessage.getStylesheets().add(Objects.requireNonNull(getClass().getResource("Chat.css")).toExternalForm());
         newMessage.getStyleClass().add("text-field-with-margin");
 
-        ChatBox.getChildren().add(newMessage);
+
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                ((VBox) SceneController.getScene().getRoot()).getChildren().add(newMessage);
+            }
+        });
+
     }
 
 
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        System.out.println("Initializing Chat");
+    }
 }

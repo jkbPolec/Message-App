@@ -7,15 +7,20 @@ public final class MainManager {
 
     private static volatile MainManager instance;
     private Client client;
+
+
     private Server server;
 
 
     private SceneController sceneController;
+
+    public Chat getChatController() {
+        return chatController;
+    }
+
     private Chat chatController;
 
-    private MainManager() {
-
-    }
+    private MainManager() {}
 
 
     public static MainManager getInstance() {
@@ -30,13 +35,15 @@ public final class MainManager {
         }
     }
 
+
     public void OnAppStart() {
         sceneController = new SceneController();
+        chatController = new Chat();
     }
 
     public void MessageReceived(String msg) {
         System.out.println("Message Received: " + msg);
-        Chat.getInstance().DisplayMessage(msg);
+        //chatController.DisplayMessage(msg);
 
     }
 
@@ -63,6 +70,8 @@ public final class MainManager {
     public SceneController getSceneController() {
         return sceneController;
     }
+
+
 
     public void SetUpForServer() {
         this.server = new Server(5000);

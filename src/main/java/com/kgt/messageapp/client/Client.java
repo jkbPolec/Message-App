@@ -1,8 +1,7 @@
 package com.kgt.messageapp.client;
 
 import com.kgt.messageapp.MainManager;
-import com.kgt.messageapp.Server;
-import javafx.application.Platform;
+import javafx.scene.layout.Pane;
 
 import java.io.*;
 import java.net.*;
@@ -21,7 +20,7 @@ public class Client {
             serverInput = new DataInputStream(socket.getInputStream());
             outputStream = new DataOutputStream(socket.getOutputStream());
 
-            thread = new Thread(new ServerListener());
+            thread = new Thread(new ServerListener(MainManager.getInstance().getChatController().getChatBox()));
             thread.start();
         } catch (IOException e) {
             e.printStackTrace();
@@ -40,12 +39,16 @@ public class Client {
 
 
     public class ServerListener implements Runnable {
+
+        Pane vbox;
+        public ServerListener(Pane vbox) { this.vbox = vbox; }
+
         @Override
         public void run() {
             while (true) {
                 try {
                     String line = serverInput.readUTF();
-                    Platform.runLater(() -> MainManager.getInstance().MessageReceived(line));
+                    MainManager.getInstance().getChatController().DisplayMessage(line, vbox);
                 } catch (IOException i) {
                     System.out.println(i.getMessage());
                     break;

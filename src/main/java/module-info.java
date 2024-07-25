@@ -5,6 +5,7 @@ module com.kgt.messageapp {
     requires org.controlsfx.controls;
     requires org.kordamp.bootstrapfx.core;
     requires java.desktop;
+    requires jdk.compiler;
 
     opens com.kgt.messageapp to javafx.fxml;
     exports com.kgt.messageapp;

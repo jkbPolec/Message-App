@@ -6,19 +6,20 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.TextFlow?>
 
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" spacing="20.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kgt.messageapp.Chat">
    <children>
       <ScrollPane fx:id="MessagesPane" prefHeight="557.0" prefWidth="780.0">
-         <content>
-            <VBox fx:id="ChatBox" prefHeight="200.0" prefWidth="750.0" />
-         </content>
          <VBox.margin>
             <Insets />
          </VBox.margin>
          <padding>
             <Insets bottom="10.0" left="15.0" right="10.0" top="10.0" />
          </padding>
+         <content>
+            <TextFlow prefHeight="200.0" prefWidth="200.0" />
+         </content>
       </ScrollPane>
       <HBox prefHeight="21.0" prefWidth="780.0" spacing="10.0">
          <children>
