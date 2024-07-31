@@ -29,6 +29,7 @@ public class SceneController {
 
     @FXML
     protected void switchToClientScene() throws IOException {
+        stage.close();
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("clientChat.fxml")));
         scene = new Scene(root);
         stage.setScene(scene);

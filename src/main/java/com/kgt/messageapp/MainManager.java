@@ -6,9 +6,8 @@ import javafx.application.Platform;
 public final class MainManager {
 
     private static volatile MainManager instance;
+
     private Client client;
-
-
     private Server server;
 
 
@@ -43,8 +42,7 @@ public final class MainManager {
 
     public void MessageReceived(String msg) {
         System.out.println("Message Received: " + msg);
-        //chatController.DisplayMessage(msg);
-
+        chatController.DisplayMessage("TEST");
     }
 
 
@@ -88,6 +86,8 @@ public final class MainManager {
         catch (Exception e) {
             System.out.println(e.getMessage());
         }
+
+        HelloApplication.StartClientThread(this.client);
     }
 
     public Client getClient() {

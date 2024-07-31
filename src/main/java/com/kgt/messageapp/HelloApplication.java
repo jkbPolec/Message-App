@@ -1,8 +1,12 @@
 package com.kgt.messageapp;
 
+import com.kgt.messageapp.client.Client;
+import com.kgt.messageapp.client.ClientListener;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -24,8 +28,23 @@ public class HelloApplication extends Application {
 
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         launch();
+
+    }
+
+    public static void StartClientThread(Client client)
+    {
+        try {
+            ClientListener listener = new ClientListener(client.getServerInput());
+            listener.start();
+        }
+        catch (IOException e)
+        {
+            System.out.println(e.getMessage());
+        }
+
+
     }
 
 

@@ -20,8 +20,8 @@ public class Client {
             serverInput = new DataInputStream(socket.getInputStream());
             outputStream = new DataOutputStream(socket.getOutputStream());
 
-            thread = new Thread(new ServerListener(MainManager.getInstance().getChatController().getChatBox()));
-            thread.start();
+            //thread = new Thread(new ClientListener(serverInput));
+            //thread.start();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -37,25 +37,6 @@ public class Client {
         }
     }
 
-
-    public class ServerListener implements Runnable {
-
-        Pane vbox;
-        public ServerListener(Pane vbox) { this.vbox = vbox; }
-
-        @Override
-        public void run() {
-            while (true) {
-                try {
-                    String line = serverInput.readUTF();
-                    MainManager.getInstance().getChatController().DisplayMessage(line, vbox);
-                } catch (IOException i) {
-                    System.out.println(i.getMessage());
-                    break;
-                }
-            }
-        }
-    }
 
     public static void main(String[] args) {
         Client client = new Client("127.0.0.1", 5000);
